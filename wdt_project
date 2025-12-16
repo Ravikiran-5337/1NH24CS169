@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Location</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #4CAF50;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        
+        .box {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 24px;
+        }
+        
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        button:hover {
+            background: #45a049;
+        }
+        
+        #result {
+            margin-top: 20px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        
+        .error {
+            color: #f44336;
+            background: #ffebee;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>📍 Find My Location</h1>
+        <button onclick="getLocation()">Click to Find Location</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function getLocation() {
+            const result = document.getElementById('result');
+            
+            if (navigator.geolocation) {
+                result.innerHTML = 'Loading...';
+                
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        
+                        result.innerHTML = `
+                            <p><b>Latitude:</b> ${lat.toFixed(4)}</p>
+                            <p><b>Longitude:</b> ${lon.toFixed(4)}</p>
+                            <p><a href="https://www.google.com/maps?q=${lat},${lon}" target="_blank" style="color: #4CAF50;">📍 View on Map</a></p>
+                        `;
+                    },
+                    (error) => {
+                        result.innerHTML = '<div class="error">Please allow location access!</div>';
+                    }
+                );
+            } else {
+                result.innerHTML = '<div class="error">Location not supported!</div>';
+            }
+        }
+    </script>
+</body>
+</html>
